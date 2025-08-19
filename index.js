@@ -1,66 +1,93 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
+const unzipper = require('unzipper');
 const saveData = require('./scripts/save-data');
-const cheerioScraper = require('./scripts/cheerioScraper');
-const puppeteerScraper = require('./scripts/puppeteerScraper');
 
 // VARS
+let current_fires;
 const data_dir = 'data';
-const tmp_data_dir = 'tmp-data';
-const filename = 'data'; // temp file for data
-const urls = ['https://www.gasbuddy.com/GasPrices/British%20Columbia/']; // URL to scrape
+// let tmp_file_dir = './data/tmp'
+const tmp_zip_file = './data/fire-data.txt';
+const filename = 'NFDB_point_20240613'; // temp file for data
+const filePattern = /^NFDB.*\.(pdf|xml|png|jpeg|csv|xlsx)$/i;
+const url = 'https://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_pnt/current_version/NFDB_point_txt.zip'
 
 
-async function init(urls, useCheerio) {
-	let html;
-	// get first url in the list
-	const url = urls.shift();
-	// clean it up a bit to use as a filename
-	const cleanUrl = url.split('//')[1].replace(/\//g, '_');
-	const htmlFilepath = `${tmp_data_dir}/${cleanUrl}.html`;
-	
-	// check if we already have the file downloaded
-	const fileExists = fs.existsSync(htmlFilepath);
-	
-	if (!fileExists) {
-		// download the HTML from the web server
-		console.log(`Downloading HTML from ${url}...`);
-		// fetchDeaths & fetchCases & other files
-		html = await axios.get(url);
-		
-		// save the HTML to disk
-		try {
-			await fs.promises.writeFile(path.join(__dirname, htmlFilepath), html.data, {flag: 'wx'});
-		} catch(err) { 
-			console.log(err);
+async function init(url) {
+	console.log(url)
+	await downloadAndUnzip(url);
+}
+
+// FUNCTIONS //
+function cleanUp() {
+	const ext = ['dbf', 'prj', 'shp', 'shx', 'pdf', 'xml', 'png'];
+
+	fs.readdirSync(data_dir).forEach(file => {
+		if (filePattern.test(file)) {
+			const filePath = path.join(data_dir, file);
+    		fs.unlinkSync(filePath);
+    		console.log(`Deleted: ${filePath}`);
 		}
-	} else {
-		console.log(`Skipping download for ${url} since ${cleanUrl} already exists.`);
-	}
+	});
+
+	fs.unlinkSync('./data/NFDB_point_update_log.txt');
+	fs.unlinkSync('./data/fire-data.txt');
+	// delete unzipped files 
+	// ext.forEach((d,i) => {
+	// 	fs.rm(`data/prot_current_fire_points.${d}`, { recursive: true}, err => {
+	// 		if (err) console.error(err)
+	// 	});
+	// });
+	// // & the zip file
+	// fs.rm(`data/current-fires.zip`, { recursive: true}, err => {
+	// 	if (err) console.error(err)
+	// });
+}
+
+async function processData() {
+	console.log('Processing data...');
+
+	// console.log('Done processing shapefiles...');
+	// await saveData(current_fires, 'wildfires', 'json', data_dir);
+
+	// delete shapefiles
+	cleanUp();
+}
+
+async function downloadAndUnzip(url) {
+	let streamResponse;
+	// stream writer where we'll download the data
+	const writeStream = fs.createWriteStream(tmp_zip_file, {flag: 'wx'});
 	
-	// load local copy of html
-	html = await fs.readFileSync(htmlFilepath);
+	writeStream.on('open', async f => {
+		// request
+		streamResponse = await axios({
+			url,
+			method: 'GET',
+			responseType: 'stream'
+		});
 
-	// scrape downloaded file
-	const results = await processHTML(html, true);
+		// write zip file data
+		streamResponse.data.pipe(writeStream);
+	});
 
-	// if there's more links, let's do it again!
-	if(urls.length > 0) {
-		console.log('Downloading next url...');
-		downloadHTML(urls, true);
-	} else {
-		saveData(results, path.join(__dirname, `${data_dir}/${filename}`), 'csv');
-	}
+	writeStream.on('finish', unzipCurrentFires);
+	writeStream.on('error', (err) => console.log(err));
 }
 
-// scrape & cache results
-async function processHTML(html, useCheerio) {
-	return (useCheerio) ? await cheerioScraper(html) : await puppeteerScraper(html);
+function unzipCurrentFires() {
+	console.log('UNZIP CURRENT FIRES');
+	fs.createReadStream(tmp_zip_file)
+		.pipe(unzipper.Extract({ path: data_dir }))
+		.on('close', processData);
 }
+
+
+
 
 // kick isht off!!!
-init(urls, true); // set 'useCheerio' to false to run puppeteer
+init(url);
 
 
 

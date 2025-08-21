@@ -62,7 +62,6 @@ async function init(url) {
 			row.status = status;
 
 			// Cleanup
-			delete row[' firename'];
 			delete row['agency'];
 			delete row[' hectares'];
 			delete row[' stage_of_control'];

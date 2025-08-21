@@ -1,2 +1,3 @@
-# web-scraper-template
-Node/cheeri-based web scraper using github actions.
+# Canadian wildfire scraper
+Source: https://cwfis.cfs.nrcan.gc.ca/downloads/activefires/
+

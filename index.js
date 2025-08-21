@@ -34,17 +34,15 @@ async function init(url) {
 		// Filter by stage_of_control (array)
 		const filtered = records.filter((row,i) => {
 			const ctrl = row[' stage_of_control'];
-			// console.log(row);
-			// row.stage_of_control = ctrl.trim();
-			// console.log(ctrl)
 
-			return FILTER_VALUES.includes(ctrl.trim())
+			return FILTER_VALUES.includes(ctrl.trim()) && row[' hectares'] > 0;
 		});
 
 		filtered.forEach(row => {
 			let status;
 			// fire size should be in km2
-			row.size = parseInt(row[' hectares']) / 100;
+			row.size_km2 = parseFloat(row[' hectares']) / 100;
+
 			const ctrl = row[' stage_of_control'];
 
 			switch (ctrl) {
@@ -60,11 +58,16 @@ async function init(url) {
 				default:
 					status = ctrl
 			}
-
+			
 			row.status = status;
+
+			// Cleanup
+			delete row[' firename'];
+			delete row['agency'];
+			delete row[' hectares'];
+			delete row[' stage_of_control'];
+			delete row[' timezone'];
 		});
-	
-		// console.log(filtered)
 
 		// Convert back to CSV
 		const output = stringify(filtered, {

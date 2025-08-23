@@ -41,7 +41,9 @@ async function init(url) {
 		filtered.forEach(row => {
 			let status;
 			// fire size should be in km2
-			row.size_km2 = parseFloat(row[' hectares']) / 100;
+			row.size_km2 = Math.round((parseFloat(row[' hectares']) / 100) * 10) / 10;
+
+			console.log(row.size_km2)
 
 			const ctrl = row[' stage_of_control'];
 

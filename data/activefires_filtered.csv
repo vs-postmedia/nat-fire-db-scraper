@@ -1,5 +1,4 @@
  firename, lat, lon, startdate, response_type,size_km2,status
- NO042, 56.675, -101.254, 2025-06-30 05:00:00, FUL,217.3,Under control
  NO023, 56.0956, -101.55, 2025-06-26 05:00:00, MON,253,Out of control
  PWF-050-2025, 57.4203, -117.639, 2025-06-02 19:50:00, FUL,211.6,Under control
  NO067, 56.0542, -94.5839, 2025-07-04 05:00:00, MON,210.2,Out of control

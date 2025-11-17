@@ -1,8 +1,8 @@
  firename, lat, lon, startdate, response_type,size_km2,status
  SWF-076-2025, 54.8114, -115.41, 2025-05-25 19:13:00, FUL,168.5,Under control
  LWF-249-2025, 54.8274, -111.857, 2025-11-03 19:20:00, FUL,0,Held
- LWF-250-2025, 55.9959, -110.619, 2025-11-12 21:21:00, FUL,2,Under control
  CWF-069-2025, 50.0299, -114, 2025-11-12 04:40:00, FUL,0,Under control
+ LWF-250-2025, 55.9959, -110.619, 2025-11-12 21:21:00, FUL,2,Under control
  CWF-067-2025, 51.4889, -114.908, 2025-11-10 15:55:00, FUL,0.3,Under control
  NO005, 54.3772, -98.2917, 2025-05-20 05:00:00, MOD,1795.1,Under control
  NO026, 56.3611, -100.259, 2025-06-27 05:00:00, FUL,1762.8,Under control

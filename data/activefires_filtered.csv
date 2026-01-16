@@ -1,5 +1,4 @@
  firename, lat, lon, startdate, response_type,size_km2,status
- CWF-003-2026, 51.0666, -115.089, 2026-01-14 23:15:00, FUL,0,Under control
  RWF-001-2026, 52.237, -115.289, 2026-01-10 23:05:00, MOD,0,Under control
  SWF-076-2025, 54.8114, -115.41, 2025-05-25 19:13:00, FUL,168.5,Under control
  LWF-090-2025, 55.1931, -110.688, 2025-05-26 22:00:00, FUL,680.2,Under control

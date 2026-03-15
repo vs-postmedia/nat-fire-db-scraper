@@ -1,6 +1,6 @@
  firename, lat, lon, startdate, response_type,size_km2,status
- RWF-006-2026, 51.753, -115.391, 2026-01-30 23:00:00, MON,2.6,Under control
  RWF-005-2026, 52.3561, -115.739, 2026-01-21 17:13:00, MON,0,Under control
+ RWF-006-2026, 51.753, -115.391, 2026-01-30 23:00:00, MON,2.6,Under control
  2026LM1, 46.6018, -72.8216, 2026-03-12 19:02:46, FUL,0.5,Out of control
  2025-K62331, 50.1373, -120.871, 2026-03-11 00:51:00, FUL,0.1,Under control
  SWF-076-2025, 54.8114, -115.41, 2025-05-25 19:13:00, FUL,168.5,Under control

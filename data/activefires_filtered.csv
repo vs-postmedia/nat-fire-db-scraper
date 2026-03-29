@@ -1,7 +1,6 @@
  firename, lat, lon, startdate, response_type,size_km2,status
  2025-V32337, 50.5273, -122.482, 2026-03-16 18:33:00, FUL,0,Under control
  RWF-005-2026, 52.3561, -115.739, 2026-01-21 17:13:00, MON,0,Under control
- 2026LM1, 46.6331, -72.5969, 2026-03-24 19:00:23, FUL,0,Out of control
  2025-C22340, 51.606, -122.233, 2026-03-18 16:13:00, FUL,0.1,Under control
  2025-K62354, 50.503, -121.269, 2026-03-25 03:20:00, FUL,0,Under control
  2025-C22352, 51.335, -122.314, 2026-03-23 22:47:00, MOD,0.3,Under control
